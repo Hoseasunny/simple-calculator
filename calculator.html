@@ -40,7 +40,7 @@
             align-items: flex-end;
             justify-content: flex-end;
         }
-        #expression{
+        #aftersign{
             background-color: black;
             color: rgb(218, 216, 216);
             padding-right: 10px;
@@ -51,14 +51,22 @@
             background-color: black;
             color: rgb(218, 216, 216);
             padding-right: 10px;
-            font-size: 1.2rem;
-            font-weight: 400;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        
+        #view{
+            background-color: black;
+            color: rgb(218, 216, 216);
+            padding-right: 10px;
+            font-size: 1.4rem;
+            font-weight: 600;
         }
         #results{
             background-color: black;
             color: white;
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             padding: 10px;
         }
         .keyboard{
@@ -94,8 +102,10 @@
     </style>
     <div class="body">
         <div class="screen">
-            <div id="expression">12+35+78</div>
-            <div id="results">125</div>
+            <div id="view"></div>
+            <div id="aftersign"></div>
+            <div id="expression">0</div>
+            <div id="results"></div>
         </div>
         <div class="keyboard">
             <button>C</button>
@@ -114,7 +124,7 @@
             <button>2</button>
             <button>3</button>
             <button>+</button>
-            <button>00</button
+            <button>00</button>
             <button>0</button>
             <button>.</button>
             <button>=</button>
@@ -125,19 +135,26 @@
     <script type="text/javascript" charset="utf-8">
         const buttons = document.querySelectorAll("button");
         const expression= document.getElementById("expression");
+        const aftersign= document.getElementById("aftersign");
         const results = document.getElementById("results");
-
-        //expression.innerHTML="";
-        //results.innerHTML="";
+        const viewDetail = document.getElementById("view")
+        let calcResult = 0;
+        let contentOne = Number(expression.textContent);
+        let operator = "";
+        let finalresult = 0;
 
         buttons.forEach(button => {button.addEventListener("click", function(){
             
             let value = button.textContent;
 
             if (value === "CE"){
-                expression.textContent="";
+                expression.textContent=0;
                 results.textContent="";
-                console.log(value);}
+                aftersign.textContent=""
+                calcResult = 0
+                console.log(value);
+                viewDetail.textContent= ""
+            }
             
             else if (value === "C"){
                 expression.textContent= expression.textContent.slice(0, -1);
@@ -145,17 +162,124 @@
 
             }
             else if (Number.isFinite(Number(value))){
-                expression.textContent += value;
+                    if (finalresult>0){ 
+                    results.textContent="";
+                    aftersign.textContent="";                    
+                    console.log(value);
+                    viewDetail.textContent= "";
+                    expression.textContent += value;
+                    contentOne=Number(expression.textContent);
+                }
+                else {
+                    expression.textContent += value;
+                    contentOne=Number(expression.textContent);
+                }
             }
-            else if (value= "+"){
-
-                const contentOne= expression.textContent;
+            else if (value=== "+"){
+                operator=value;
+                calcResult += contentOne;
                 expression.textContent="";
-                console.log(contentOne)
+                console.log(calcResult);
+                aftersign.textContent=calcResult;
+                contentOne = 0;
+            }
+            else if (value === "-"){
+                operator=value;
+                if (calcResult === 0|| expression.textContent===""){
+                    expression.textContent="";
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+
+                }
+                else {
+                    calcResult -= contentOne;
+                    expression.textContent="";
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;}    
+            }
+            else if (value === "X"){
+                operator=value;
+                if (calcResult === 0){
+                    calcResult = 1;
+                    let product = calcResult * contentOne;
+                    expression.textContent="";
+                    calcResult = product;
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+                }
+                else if (calcResult > 0 && contentOne === 0){
+                    expression.textContent="";
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+
+                }
+                else {
+                    calcResult *= contentOne;
+                    expression.textContent="";
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+
+                }
+
+            }
+            else if (value === "/"){
+                operator=value;
+                if (calcResult === 0){
+
+                    calcResult = contentOne;
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+                    expression.textContent="";
+                }
+                else if (calcResult > 0 && contentOne === 0){
+                    expression.textContent="";
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+                }
+                else {
+                    let division = calcResult/ contentOne;
+                    calcResult = division;
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult; 
+                }   
+            }
+            else if (value === "%"){
+                operator=value;
+                calcResult= contentOne / 100 ;
+                console.log(calcResult);
+                aftersign.textContent=calcResult;    
+            }
+
+            else if(value === "="){
+
+                if (operator === "+"){
+                    finalresult=calcResult+contentOne;
+                    expression.textContent="";
+                }
+                else if (operator === "-"){
+                    finalresult=calcResult-contentOne;
+                    expression.textContent="";
+                }
+                else if (operator === "X"){
+                    finalresult=calcResult*contentOne;
+                    expression.textContent="";
+                }
+                else if (operator === "/"){
+                    finalresult=calcResult/contentOne;
+                    expression.textContent="";
+                }
+
+                results.textContent = finalresult;
+                viewDetail.textContent= calcResult+""+operator+""+contentOne;
+                calcResult = finalresult;
+                aftersign.textContent=calcResult;
+                contentOne = 0;
+                console.log(calcResult,contentOne);
 
             }
 
-        })    
+        })   
+         
     })
 
     </script>
