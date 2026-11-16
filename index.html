@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #modal{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>welcome back to todo list</h1>
+    <p>whats on your list today</p>
+    <div class="box">
+        <button id="add">add</button>
+        <button id="delete">delete</button>
+    </div>
+    <div id="lists"></div>
+    <div id="modal">
+        <input type="text" placeholder="Enter new tittle" id="newTittle">
+        <button id="save">save</button>
+    </div>
+
+
+    <script>
+        const modalRename = document.querySelector("#modal");
+        const newItem = document.getElementById("add");
+        const rem = document.getElementById("delete");
+        const listsbox = document.getElementById("lists")
+
+        const item = document.createElement("div");
+        item.innerHTML= `
+            <h3>New item</h3>
+            <button id="rename">rename</div>
+        `;
+        let countelement =listsbox.children.length;
+
+        newItem.addEventListener("click", function(){
+
+            for ( let i =0; i<=countelement; i++){
+                listsbox.appendChild(item);
+                console.log("added");
+            }
+        } );
+
+        rem.addEventListener("click", function(){
+
+            listsbox.lastChild.remove();
+        });
+
+        const rename =item.querySelector("#rename");
+
+        rename.addEventListener("click", function(){
+            modalRename.style.display= "block";
+        });
+
+        const saveName =document.querySelector("#save");
+        const title = document.querySelector("#newTittle");
+
+        saveName.addEventListener("click", function(){
+            let listTitle = title.value;
+            item.innerHTML = `
+            <h3>${listTitle}</h3>
+            <button id="rename">rename</div>
+        `;
+            console.log(title.value)
+            modalRename.style.display= "none";
+        })
+
+    </script>
+</body>
+</html>

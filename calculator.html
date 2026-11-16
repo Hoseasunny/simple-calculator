@@ -12,7 +12,7 @@
             width: 100%;
             padding: 0;
             margin: 0;
-            background-color: rgba(128, 128, 128, 0.719);
+            background-color: black;
             display: flex;
             justify-content: center;
             align-items: baseline;
@@ -39,6 +39,13 @@
             flex-flow: column;
             align-items: flex-end;
             justify-content: flex-end;
+        }
+        #expression{
+            background-color: black;
+            color: rgb(218, 216, 216);
+            padding-right: 10px;
+            font-size: 1.2rem;
+            font-weight: 400;
         }
         #expression{
             background-color: black;
@@ -77,7 +84,7 @@
             border-left: 10px solid rgb(102, 100, 100);
             background-color: aquamarine;
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.637);
-            transition: all 0.4s ease-in-out;
+            transition: all 0.3s ease-in-out;
 
         }
         button:active{
@@ -107,7 +114,7 @@
             <button>2</button>
             <button>3</button>
             <button>+</button>
-            <button>00</button>
+            <button>00</button
             <button>0</button>
             <button>.</button>
             <button>=</button>
@@ -116,8 +123,40 @@
 
 
     <script type="text/javascript" charset="utf-8">
-        
+        const buttons = document.querySelectorAll("button");
+        const expression= document.getElementById("expression");
+        const results = document.getElementById("results");
 
+        //expression.innerHTML="";
+        //results.innerHTML="";
+
+        buttons.forEach(button => {button.addEventListener("click", function(){
+            
+            let value = button.textContent;
+
+            if (value === "CE"){
+                expression.textContent="";
+                results.textContent="";
+                console.log(value);}
+            
+            else if (value === "C"){
+                expression.textContent= expression.textContent.slice(0, -1);
+                console.log("deleted")
+
+            }
+            else if (Number.isFinite(Number(value))){
+                expression.textContent += value;
+            }
+            else if (value= "+"){
+
+                const contentOne= expression.textContent;
+                expression.textContent="";
+                console.log(contentOne)
+
+            }
+
+        })    
+    })
 
     </script>
 </body>
