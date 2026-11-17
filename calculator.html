@@ -286,9 +286,151 @@
 
             }
 
-        })   
+        });
+        
          
     })
+    document.addEventListener("keydown", function(event){
+            let value= event.key;
+             if (value === "CE"){
+                expression.textContent=0;
+                results.textContent="";
+                aftersign.textContent=""
+                calcResult = 0
+                console.log(value);
+                viewDetail.textContent= ""
+            }
+            
+            else if (value === "C"){
+                expression.textContent= expression.textContent.slice(0, -1);
+                console.log("deleted")
+
+            }
+            else if (Number.isFinite(Number(value))){
+                    if (finalresult>0){ 
+                    aftersign.textContent="";  
+                    viewDetail.textContent= "";
+                    expression.textContent += value;
+                    contentOne=Number(expression.textContent);
+                }
+                else {
+                    expression.textContent += value;
+                    contentOne=Number(expression.textContent);
+                }
+            }
+            else if (value=== "+"){
+                operator=value;
+                calcResult += contentOne;
+                expression.textContent="";
+                console.log(calcResult);
+                aftersign.textContent=calcResult;
+                contentOne = 0;
+            }
+            else if (value === "-"){
+                operator=value;
+                if (calcResult === 0 || aftersign.textContent===""){
+                    expression.textContent="";
+                    calcResult=contentOne;
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+
+                }
+                else {
+                    calcResult -= contentOne;
+                    expression.textContent="";
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;}    
+            }
+            else if (value === "X"){
+                operator=value;
+                if (calcResult === 0){
+                    calcResult = 1;
+                    let product = calcResult * contentOne;
+                    expression.textContent="";
+                    calcResult = product;
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+                }
+                else if (calcResult > 0 && contentOne === 0){
+                    expression.textContent="";
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+
+                }
+                else {
+                    calcResult *= contentOne;
+                    expression.textContent="";
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+
+                }
+
+            }
+            else if (value === "."){
+                if (expression.textContent.includes(value)){
+                    expression.textContent+="";
+                } 
+                else if (expression.textContent==0){
+                    expression.textContent="0." ;
+                }
+                else{expression.textContent += value;}
+            }
+            else if (value === "/"){
+                operator=value;
+                if (calcResult === 0){
+
+                    calcResult = contentOne;
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+                    expression.textContent="";
+                }
+                else if (calcResult > 0 && contentOne === 0){
+                    expression.textContent="";
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult;
+                }
+                else {
+                    let division = calcResult/ contentOne;
+                    calcResult = division;
+                    console.log(calcResult);
+                    aftersign.textContent=calcResult; 
+                }   
+            }
+            else if (value === "%"){
+                operator=value;
+                calcResult= contentOne / 100 ;
+                console.log(calcResult);
+                aftersign.textContent=calcResult;    
+            }
+
+            else if(value === "="){
+
+                if (operator === "+"){
+                    finalresult=calcResult+contentOne;
+                    expression.textContent="";
+                }
+                else if (operator === "-"){
+                    finalresult=calcResult-contentOne;
+                    expression.textContent="";
+                }
+                else if (operator === "X"){
+                    finalresult=calcResult*contentOne;
+                    expression.textContent="";
+                }
+                else if (operator === "/"){
+                    finalresult=calcResult/contentOne;
+                    expression.textContent="";
+                }
+
+                results.textContent = finalresult;
+                viewDetail.textContent= calcResult+" "+operator+" "+contentOne;
+                calcResult = finalresult;
+                aftersign.textContent=calcResult;
+                contentOne = 0;
+                console.log(calcResult,contentOne);
+
+            }
+        })   
 
     </script>
 </body>
