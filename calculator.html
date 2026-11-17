@@ -163,9 +163,7 @@
             }
             else if (Number.isFinite(Number(value))){
                     if (finalresult>0){ 
-                    results.textContent="";
-                    aftersign.textContent="";                    
-                    console.log(value);
+                    aftersign.textContent="";  
                     viewDetail.textContent= "";
                     expression.textContent += value;
                     contentOne=Number(expression.textContent);
@@ -185,8 +183,9 @@
             }
             else if (value === "-"){
                 operator=value;
-                if (calcResult === 0|| expression.textContent===""){
+                if (calcResult === 0 || aftersign.textContent===""){
                     expression.textContent="";
+                    calcResult=contentOne;
                     console.log(calcResult);
                     aftersign.textContent=calcResult;
 
@@ -221,6 +220,15 @@
 
                 }
 
+            }
+            else if (value === "."){
+                if (expression.textContent.includes(value)){
+                    expression.textContent+="";
+                } 
+                else if (expression.textContent==0){
+                    expression.textContent="0." ;
+                }
+                else{expression.textContent += value;}
             }
             else if (value === "/"){
                 operator=value;
@@ -270,7 +278,7 @@
                 }
 
                 results.textContent = finalresult;
-                viewDetail.textContent= calcResult+""+operator+""+contentOne;
+                viewDetail.textContent= calcResult+" "+operator+" "+contentOne;
                 calcResult = finalresult;
                 aftersign.textContent=calcResult;
                 contentOne = 0;
