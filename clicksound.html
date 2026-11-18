@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCHOOL</title>
-    <style>
-        td{
-            border: 1px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="personal_enrty">
@@ -35,11 +31,13 @@
             <option value="male">male</option>
             <option value="female">female</option>
         </select>
+        <button id="savest">save</button>
     </div>
     <div class="grade_entry">
         <h1>Accademic Performance</h1>
+        <div id="stdeltable"></div>
+        <h3>Please enter the required marks</h3>
         <table>
-            <thead>Please enter the required marks</thead>
             <tr>
             <th>Subject</th>
             <th>marks</th>
@@ -48,47 +46,128 @@
         <tr>
             <td>Mathmatics</td>
             <td>
-                <input type="number" min="0" max="100">
+                <input type="number" min="0" max="100" class="scores">
             </td>
             <td>100</td>
         </tr>
         <tr>
             <td>English</td>
             <td>
-                <input type="number" min="0" max="100">
+                <input type="number" min="0" max="100" class="scores">
             </td>
             <td>100</td>
         </tr>
         <tr>
             <td>Kiswahili</td>
             <td>
-                <input type="number" min="0" max="100">
+                <input type="number" min="0" max="100" class="scores">
             </td>
             <td>100</td>
         </tr>
         <tr>
             <td>Science</td>
             <td>
-                <input type="number" min="0" max="100">
+                <input type="number" min="0" max="100" class="scores">
             </td>
             <td>100</td>
         </tr>
         <tr>
             <td>CRE</td>
             <td>
-                <input type="number" min="0" max="100">
+                <input type="number" min="0" max="100" class="scores">
             </td>
             <td>100</td>
         </tr>
         <tr>
             <td>Social Studies</td>
             <td>
-                <input type="number" min="0" max="100">
+                <input type="number" min="0" max="100" class="scores">
             </td>
             <td>100</td>
         </tr>
         </table>
-
+        <button id="scoresv">save</button>
     </div>
+    <div class="final">
+        <table>
+            <thead>student performance list</thead>
+            <tbody id="stList">
+                <tr>
+                    <th>no.</th>
+                    <th>name</th>
+                    <th>gender</th>
+                    <th>mathmatics</th>
+                    <th>english</th>
+                    <th>kiswahil</th>
+                    <th>science</th>
+                    <th>cre</th>
+                    <th>social studies</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        const getname = document.querySelector("#name");
+        const getgrade = document.querySelector("#gradeselection");
+        const getgender = document.querySelector("#gender");
+        const savest = document.querySelector("#savest");
+        const stdeltable = document.querySelector("#stdeltable");
+        const scoresv = document.querySelector("#scoresv");
+        const stList = document.querySelector("#stList");
+        let grade_entry= document.querySelector(".grade_entry");
+        let final = document.querySelector(".final");
+
+
+        let Sname, grade, gender;
+        let num =0;
+
+
+        savest.addEventListener("click", function(){
+            console .log(getname.value,getgrade.value,getgender.value);
+            stdeltable.innerHTML=`<h4>${getname.value}   Gender:${getgender.value}   Grade:${getgrade.value}</h4> 
+                <p> Accademic performance Term II<p>`;
+            Sname = getname.value;
+            grade = getgrade.value;
+            gender = getgender.value;
+            
+            grade_entry.style.display = "flex";
+
+            return Sname, grade, gender;
+
+        });
+
+
+        scoresv.addEventListener("click",function(){
+            const scores = document.querySelectorAll(".scores");
+            let scoreList = [];
+
+            for (i=0 ; i< scores.length; i++){
+                let value = Number(scores[i].value);
+                scoreList.push(value);
+            }
+            console.log(scoreList);
+            num++;
+
+            stList.innerHTML+=`<tr>
+                <td>${num}</td>
+                <td>${Sname}</td>
+                <td>${gender}</td>
+                <td>${scoreList[0]}</td>
+                <td>${scoreList[1]}</td>
+                <td>${scoreList[2]}</td>
+                <td>${scoreList[3]}</td>
+                <td>${scoreList[4]}</td>
+                <td>${scoreList[5]}</td>`;
+
+            
+            grade_entry.style.display = "none";
+            grade_entry.style.flex = "0 1 calc(70% , -10px)";
+            getgender.value="";
+            getgrade.value="";
+            getname.value="";
+        });
+
+
+    </script>
 </body>
 </html>
